@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(new MyApp());
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
@@ -15,25 +15,31 @@ class MyApp extends StatelessWidget {
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ListView(children: [
+    MediaQueryData media = MediaQuery.of(context);
+    final containerHeight = 300.0;
+    final tabbar = TabBar(tabs: [Tab(text: 'Tab1'), Tab(text: 'Tab2')]);
+    return Column(children: [
       Container(
           color: Colors.blue,
-          height: 300.0,
+          height: containerHeight,
           child: Center(child: Text('Container'))),
       DefaultTabController(
           length: 2,
           initialIndex: 0,
           child: Column(
             children: [
-              TabBar(tabs: [Tab(text: 'Tab1'), Tab(text: 'Tab2')]),
+              tabbar,
               Container(
-                  height: 300.0, // TODO: How to not require static height
-                  child: TabBarView(
-                    children: [
-                      Center(child: Text('Content1')),
-                      Center(child: Text('Content2'))
-                    ],
-                  ))
+                height: media.size.height -
+                    containerHeight -
+                    tabbar.preferredSize.height,
+                child: TabBarView(
+                  children: [
+                    Placeholder(),
+                    Placeholder(),
+                  ],
+                ),
+              )
             ],
           ))
     ]);
